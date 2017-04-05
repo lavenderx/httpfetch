@@ -117,20 +117,6 @@ public class HttpApiService {
                 Map<String, String> headers = getHeaders(httpApiAnno);
                 wrapper.setHeaders(headers);
 
-                //查询指定的结果转换类获取结果转换服务类
-                ResponseGeneratorConvertor generatorService = null;
-                if (StringUtils.isNotEmpty(httpApiAnno.generator())) {
-                    for (ResponseGeneratorConvertor handler : serviceWrapper.getHandlers()) {
-                        if (httpApiAnno.generator().equals(
-                                handler.getClass().getSimpleName())) {
-                            generatorService = handler;
-                            break;
-                        }
-                    }
-                }
-
-                wrapper.setGeneratorService(generatorService);
-
                 //去函数的返回类
                 wrapper.setResponseCls(method.getReturnType());
 
@@ -410,6 +396,9 @@ public class HttpApiService {
 
         private String getUrl(Class<?> serviceCls, Method method){
             HttpApi httpApi = method.getAnnotation(HttpApi.class);
+            if(StringUtils.isNotEmpty(httpApi.url())) {
+                return httpApi.url();
+            }
             String code = httpApi.operateCode();
             if(StringUtils.isEmpty(code)){
                 //如果为空，则使用默认的操作码

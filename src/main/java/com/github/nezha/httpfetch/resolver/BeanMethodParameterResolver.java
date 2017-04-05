@@ -1,10 +1,10 @@
 package com.github.nezha.httpfetch.resolver;
 
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.annotation.JSONField;
 import com.github.nezha.httpfetch.HttpApiMethodWrapper;
 import com.github.nezha.httpfetch.HttpApiRequestParam;
 import com.github.nezha.httpfetch.MethodParameter;
+import com.github.nezha.httpfetch.Param;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -54,10 +54,9 @@ public class BeanMethodParameterResolver implements MethodParameterResolver {
 				//取getter
 				if (PropertyUtils.isReadable(arg, name)) {
 					//取param name
-					//TODO 后期如果可以的话转成Param
-					JSONField jsonField = fields[i].getAnnotation(JSONField.class);
-					if(jsonField != null && StringUtils.isNotEmpty(jsonField.name())){
-						paramNames.add(jsonField.name());
+					Param fieldParam = fields[i].getAnnotation(Param.class);
+					if(fieldParam != null && StringUtils.isNotEmpty(fieldParam.value())){
+						paramNames.add(fieldParam.value());
 					}else{
 						paramNames.add(name);
 					}
