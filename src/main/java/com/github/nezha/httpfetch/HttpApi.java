@@ -19,6 +19,12 @@ public @interface HttpApi {
 	String operateCode() default "";
 
 	/**
+	 * url的优先级高于operateCode
+	 * @return
+     */
+	String url() default "";
+
+	/**
 	 * 请求的METHOD
 	 * @return
      */
@@ -29,12 +35,6 @@ public @interface HttpApi {
 	 * @return
      */
 	Header[] headers() default {};
-
-	/**
-	 * 结果生产类,使用类的simpleName就行
-	 * @return
-     */
-	String generator() default "";
 
 	/**
 	 * 超时时间
